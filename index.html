@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" sizes="32x32" href="favi.png">
+  <title>Click Emoji World</title>  
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+  <style type="text/css">
+    @font-face {
+    font-family: 'PilseungGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/PilseungGothic.woff2') 
+    format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    }
+    body{margin:0; padding: 0;}
+    .width {height: 100vh; overflow:hidden; position:relative; padding-left:10px;}
+    #world {width: 1200px; height:70px; font-family: 'PilseungGothic'; font-size:3rem;padding-top:10px;}
+    #buttons {margin-top:-10px;}
+    #text {position: absolute; display: none; font-family:'Dela Gothic One'; font-size:3rem; width:auto;}
+   </style>
+</head>
+<body>
+  <div class="width">
+    <div id="world"></div>
+    <div id="buttons">
+        <button id="people">people</button>
+        <button id="trans">transportation</button>
+        <button id="animals">animal</button>
+        <button id="nature">nature</button>
+        <button id="clear">clear</button>
+    </div>
+    <div id="emoji"></div>
+    <div id="text"></div>
+  </div>
+  <script type="text/javascript">
+    /*버튼(이모지 생성)*/
+    const buttons = document.querySelectorAll('button');
+    const imageContainer = document.getElementById('emoji');
+    const imageLists = {
+      animals: ['a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png', 'a6.png', 'a7.png', 'a8.png', 'a9.png', 'a10.png', 'a11.png', 'a12.png', 'a13.png', 'a14.png', 'a15.png', 'a16.png', 'a17.png', 'a18.png', 'a19.png', 'a20.png', 'a21.png', 'a22.png', 'a23.png', 'a24.png', 'a25.png'],
+      trans: ['c1.png', 'c2.png', 'c3.png', 'c4.png', 'c5.png', 'c6.png', 'c7.png', 'c8.png', 'c9.png', 'c10.png', 'c11.png', 'c12.png', 'c13.png'],
+      people: ['p1.png', 'p2.png', 'p3.png', 'p4.png', 'p5.png', 'p6.png', 'p7.png', 'p8.png', 'p9.png', 'p10.png', 'p11.png', 'p12.png', 'p13.png', 'p14.png', 'p15.png', 'p16.png'],
+      nature: ['t1.png', 't2.png', 't3.png', 't4.png', 't5.png', 't6.png', 't7.png', 't8.png'],
+    };
+      
+    let selectedButton = null;
+    let currentImageIndex = 0;
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        if (button.id === 'clear') {
+          clearImages();
+          selectedButton = null; 
+        } else {
+          selectedButton = button.id;
+        }
+      });
+    });
+
+    function getRandomImage(imageList) {
+      if (imageList && imageList.length > 0) {
+        return imageList[Math.floor(Math.random() * imageList.length)];
+      }
+      return null;
+    }
+
+    function clearImages() {
+      const images = document.querySelectorAll('img');
+      images.forEach((img) => {
+        img.remove();
+      });
+    }
+
+    /*커서 따라가기*/
+
+    document.addEventListener('mousemove', (event) => {
+      if (selectedButton) {
+        addImageAtCursor(event, imageLists[selectedButton][currentImageIndex]);
+      }
+    });
+
+    document.addEventListener('click', () => {
+      if (selectedButton) {
+        currentImageIndex = Math.floor(Math.random() * imageLists[selectedButton].length);
+        addImageAtCursor({ clientX: Math.random() * window.innerWidth, clientY: Math.random() * window.innerHeight }, imageLists[selectedButton][currentImageIndex]);
+      }
+    });
+
+    function addImageAtCursor(event, imageUrl) {
+      if (imageUrl) {
+        const imgElement = document.createElement('img');
+        imgElement.src = imageUrl;
+        imgElement.style.position = 'absolute';
+        imgElement.style.left = `${event.clientX}px`;
+        imgElement.style.top = `${event.clientY}px`;
+        imgElement.style.zIndex = "-2000";
+        imgElement.style.width = "80px";
+        document.body.appendChild(imgElement);
+      }
+    }
+
+    function updateEmojiDisplay() {
+            var emoji = prompt("world 이름을 입력해주세요.");
+            if (!emoji) {
+                emoji = "🧑‍🦲";
+            }
+            var world = document.getElementById("world");
+            world.textContent = `(${emoji})'S Emoji World!`;
+        }
+
+    window.onload = updateEmojiDisplay; 
+    /*랜덤 텍스트*/
+    function getRandomPosition() {
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+    const top = Math.random() * (windowHeight - 50);
+    const left = Math.random() * (windowWidth - 200);
+    return { top, left };
+    }
+
+    const texts = [
+        "かわいい",
+        "カッコイイ",
+        "愛らしい",
+        "気が狂った",
+        "本当に本当に",
+        "まあ",
+        "へえー",
+        "よっこいしょ",
+        "どっこらしょ",
+        "まあ",
+        "へえー",
+        "( ˃ ⩌˂)",
+        "ᐡ⸝⸝ᴗ ·̮ ᴗ⸝⸝ ྀི ᐡ",
+        "( ⸝⸝ ᷇࿀ ᷆⸝⸝ƪ)✧",
+        "(▰˘◡˘▰)",
+        "ヾ(^ิ∀^ิ)",
+        "( ✪ワ✪)ノʸᵉᵃʰᵎ"
+    ];
+
+    function getRandomText() {
+        return texts[Math.floor(Math.random() * texts.length)];
+    }
+
+    /*랜덤 배경색*/
+
+    function getRandomColor() {      
+        const hue = Math.floor(Math.random() * 360); 
+        const saturation = 100; 
+        const lightness = 50; 
+        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    }
+    function createRandomText() {
+        const randomText = document.getElementById("text");
+        const { top, left } = getRandomPosition();
+        randomText.style.top = top + "px";
+        randomText.style.left = left + "px";
+        randomText.style.display = "block";
+        randomText.innerHTML = getRandomText();
+        randomText.style.backgroundColor = getRandomColor();
+        setTimeout(() => {
+            randomText.style.display = "none";
+            randomText.innerHTML = "";
+        }, 1000);
+    }
+    setInterval(createRandomText, 5000);      
+  </script>
+</body>
+</html>
